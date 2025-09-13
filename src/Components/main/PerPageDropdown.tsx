@@ -16,7 +16,7 @@ interface PerPageDropdownProps {
 }
 
 export function PerPageDropdown({ value, onChange }: PerPageDropdownProps) {
-  const options = [5, 10, 20, 50, 100]
+  const options = [ 5, 10 ]
 
   return (
     <div className="flex items-center gap-3">

@@ -11,8 +11,7 @@ AxiosInstance.interceptors.request.use(
   ): Promise<InternalAxiosRequestConfig> => {
     const token =
       import.meta.env.VITE_GITHUB_TOKEN || ""; 
-      console.log(token);
-      
+            
    if (token) {
       config.headers.set("Authorization", `Bearer ${token}`);
     }

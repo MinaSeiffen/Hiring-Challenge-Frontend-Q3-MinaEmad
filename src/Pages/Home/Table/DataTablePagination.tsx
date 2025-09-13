@@ -5,10 +5,16 @@ import {
   MdKeyboardDoubleArrowRight,
 } from "react-icons/md"
 import { Button } from "../../../Components/ui/button"
+import type { PaginationType } from "../../../Types"
 
-function DataTablePagination({ table }: { table: any }) {
-  const page = table.getState().pagination.pageIndex + 1
-  const totalPages = table.getPageCount()
+function DataTablePagination({
+  pagination,
+  setPagination,
+}: {
+  pagination: PaginationType
+  setPagination: (val: PaginationType) => void
+}) {
+  const { pageSize, since, isLast } = pagination
 
   return (
     <div className="flex justify-center items-center gap-2 py-4">
@@ -16,8 +22,8 @@ function DataTablePagination({ table }: { table: any }) {
       <Button
         variant="outline"
         size="sm"
-        onClick={() => table.setPageIndex(0)}
-        disabled={!table.getCanPreviousPage()}
+        onClick={() => setPagination({ pageSize, since: 0, isLast: false })}
+        disabled={since === 0}
         className="px-3 py-1"
       >
         <MdKeyboardDoubleArrowLeft />
@@ -27,36 +33,46 @@ function DataTablePagination({ table }: { table: any }) {
       <Button
         variant="outline"
         size="sm"
-        onClick={() => table.previousPage()}
-        disabled={!table.getCanPreviousPage()}
+        onClick={() =>
+          setPagination({
+            pageSize,
+            since: Math.max(since as number - pageSize, 0),
+            isLast: false,
+          })
+        }
+        disabled={since === 0 || isLast}
         className="px-3 py-1"
       >
         <MdKeyboardArrowLeft />
       </Button>
 
-      {/* Page info */}
-      <span className="px-4 py-1 text-gray-700 text-sm font-semibold">
-        <span className="text-blue-600">{page}</span> of{" "}
-        <span className="text-blue-600">{totalPages}</span>
-      </span>
-
       {/* Next Page */}
       <Button
         variant="outline"
         size="sm"
-        onClick={() => table.nextPage()}
-        disabled={!table.getCanNextPage()}
+        onClick={() =>
+          setPagination({
+            pageSize,
+            since: since as number + pageSize,
+            isLast: false,
+          })
+        }
+        disabled={isLast}
         className="px-3 py-1"
       >
         <MdKeyboardArrowRight />
       </Button>
 
-      {/* Last Page */}
       <Button
         variant="outline"
         size="sm"
-        onClick={() => table.setPageIndex(totalPages - 1)}
-        disabled={!table.getCanNextPage()}
+        onClick={() =>
+          setPagination({
+            pageSize,
+            isLast: true,
+          })
+        }
+        disabled={isLast}
         className="px-3 py-1"
       >
         <MdKeyboardDoubleArrowRight />
