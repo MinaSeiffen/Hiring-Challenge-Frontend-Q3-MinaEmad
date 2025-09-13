@@ -4,7 +4,7 @@ import useDebouncedValue from "../../Hooks/useDebounceValue";
 import { FaGithub } from "react-icons/fa";
 import { PerPageDropdown } from "../../Components/main/PerPageDropdown";
 import { getUserColumns } from "./Table/Colums";
-import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
+import { flexRender, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../Components/ui/table";
 import DataTablePagination from "./Table/DataTablePagination";
 import useGetAll from "../../Hooks/users/uesGetAll";
@@ -12,16 +12,19 @@ import { toast } from "sonner";
 import CustomLoader from "../../Components/main/CustomLoader";
 import ErrorHandling from "../../Components/main/ErrorHandling";
 import Search from "../../Components/main/Search";
+import type { PaginationType } from "../../Types";
 
 
 function Home() {
   const {data:users, error, fetchData, loading} = useGetAll()
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebouncedValue(search, 800);
-  const [pagination, setPagination] = useState({
-    pageIndex: 0,
+  const [pagination, setPagination] = useState<PaginationType>({
     pageSize: 10,
-  });
+    since: 0, 
+    isLast: false,
+  })
+
 
   const { favorites, toggleFavorite } = useContext(FavoritesContext);
 
@@ -34,20 +37,18 @@ function Home() {
     data: users,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     state: {
       globalFilter: debouncedSearch,
-      pagination,
     },
     onGlobalFilterChange: setSearch,
-    onPaginationChange: setPagination, 
-  });
+  })
+
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(pagination.pageSize, pagination.since as number, pagination.isLast);
+  }, [pagination.pageSize, pagination.since, pagination.isLast]);
 
   useEffect(() => {
     if (error) {
@@ -120,7 +121,10 @@ function Home() {
               {/* Footer */}
               <div className="flex justify-between items-center mt-6 flex-col md:flex-row gap-4">
                 {/* Pagination */}
-                <DataTablePagination table={table} />
+                <DataTablePagination
+                  pagination={pagination}
+                  setPagination={setPagination}
+                />
 
                 {/* Dropdown for users per page */}
                 <div className="flex items-center gap-3">

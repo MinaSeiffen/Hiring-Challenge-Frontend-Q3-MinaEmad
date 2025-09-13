@@ -21,3 +21,15 @@ export type User = {
     user_view_type: string;
     site_admin: boolean;
 };
+
+export type SearchUser = {
+    total_count: number;
+    incomplete_results: boolean;
+    items: User[];
+}
+
+export type PaginationType = {
+    pageSize: number;
+    since?: number | undefined;
+    isLast: boolean;
+}
