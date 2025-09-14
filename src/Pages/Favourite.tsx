@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo } from "react";
+import { useContext, useEffect, useMemo, useRef } from "react";
 import { FavoritesContext } from "../Context/FavoritesContext";
 import { UserCard } from "../Components/main/Card";
 import useGetAll from "../Hooks/users/uesGetAll";
@@ -7,8 +7,9 @@ import { UserCardSkeleton } from "../Components/main/UserCardSkeleton";
 function Favourite() {
   const { favorites } = useContext(FavoritesContext);
   const { data: users, loading, fetchData } = useGetAll();
+  
+  const hasFetched = useRef(false);
 
-  // Compute min & max IDs
   const { minId, maxId } = useMemo(() => {
     if (favorites.length === 0) return { minId: null, maxId: null };
     const ids = favorites.map((f) => f.id);
@@ -19,11 +20,11 @@ function Favourite() {
   }, [favorites]);
 
   useEffect(() => {
-    if (maxId !== null && minId !== null) {
-      // Example: fetch 10 users starting from lowest id
+    if (maxId !== null && minId !== null && !hasFetched.current) {
       fetchData(maxId, minId - 1);
+      hasFetched.current = true;
     }
-  }, [minId, maxId]);
+  }, [minId, maxId]); 
 
   const favoriteUsers = useMemo(() => {
     const favIds = favorites.map(f => f.id);
@@ -31,6 +32,7 @@ function Favourite() {
   }, [users, favorites]);
 
   if (favorites.length === 0) {
+    hasFetched.current = false;
     return (
       <div className="text-center text-gray-500 dark:text-gray-400 mt-10">
         No favourite users found.
@@ -65,7 +67,6 @@ function Favourite() {
       )}
     </>
   )
-
 }
 
 export default Favourite;
