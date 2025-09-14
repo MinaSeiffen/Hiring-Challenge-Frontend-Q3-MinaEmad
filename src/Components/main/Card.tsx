@@ -25,7 +25,7 @@ export function UserCard({ user, index }: UserCardProps) {
       className="w-full"
     >
       <Card
-        className="relative cursor-pointer rounded-2xl border border-gray-200 bg-white/80 backdrop-blur-md shadow-md hover:shadow-2xl transition-all duration-300"
+        className="relative cursor-pointer rounded-2xl border border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-md hover:shadow-2xl transition-all duration-300"
         onClick={() => window.open(user.html_url, "_blank")}
       >
         {/* Top section */}
@@ -37,10 +37,10 @@ export function UserCard({ user, index }: UserCardProps) {
               className="w-24 h-24 rounded-full shadow-lg border-4 border-white"
             />
           </div>
-          <CardTitle className="mt-3 text-lg font-semibold text-gray-800 hover:text-blue-600 transition-colors">
+          <CardTitle className="mt-3 text-lg font-semibold text-gray-800 dark:text-gray-200 hover:text-blue-600 transition-colors">
             {user.login}
           </CardTitle>
-          <CardDescription className="text-xs text-gray-500">
+          <CardDescription className="text-xs text-gray-500 dark:text-gray-400">
             {user.type}
           </CardDescription>
         </CardHeader>

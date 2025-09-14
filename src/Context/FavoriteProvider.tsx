@@ -1,4 +1,4 @@
-import { useState, useEffect, ReactNode } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { FavoritesContext } from "./FavoritesContext";
 import type { User } from "../Types";
 
