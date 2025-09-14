@@ -4,6 +4,7 @@ import AppLayout from './AppLayout'
 import Home from './Pages/Home/Home'
 import Favourite from './Pages/Favourite'
 import { FavoritesProvider } from './Context/FavoriteProvider'
+import { ThemeProvider } from './Context/Theme'
 
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
           element: <Home/>
         },
         {
-          path: "favorite",
+          path: "favorites",
           element: <Favourite/>
         }
       ]
@@ -26,9 +27,11 @@ function App() {
   ])
 
   return (
-    <FavoritesProvider>
-      <RouterProvider router={routes} />
-    </FavoritesProvider>
+    <ThemeProvider>
+      <FavoritesProvider>
+        <RouterProvider router={routes} />
+      </FavoritesProvider>
+    </ThemeProvider>
   )
 }
 

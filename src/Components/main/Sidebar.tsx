@@ -9,32 +9,32 @@ import {
     DrawerTrigger,
     DrawerClose,
 } from "../ui/drawer";
-// import { useTheme } from "../../Context/ThemeContext";
+import { useTheme } from "../../Context/ThemeContext";
 
 const Sidebar: React.FC = () => {
     const location = useLocation();
-    // const { theme, toggleTheme } = useTheme();   
+    const { theme, toggleTheme } = useTheme();   
 
     // Modern switch component
-    // const ThemeSwitch = (
-    //     <label className="flex items-center gap-2 cursor-pointer px-6 py-3">
-    //         <span className="text-sm">{theme === "dark" ? "Dark" : "Light"} Mode</span>
-    //         <input
-    //             type="checkbox"
-    //             checked={theme === "dark"}
-    //             onChange={toggleTheme}
-    //             className="sr-only"
-    //             aria-label="Toggle theme"
-    //         />
-    //         <span className="relative w-10 h-6 bg-gray-400 rounded-full transition-colors duration-300">
-    //             <span
-    //                 className={`absolute left-1 top-1 w-4 h-4 rounded-full bg-white shadow transition-transform duration-300 ${
-    //                     theme === "dark" ? "translate-x-4" : ""
-    //                 }`}
-    //             />
-    //         </span>
-    //     </label>
-    // );
+    const ThemeSwitch = (
+        <label className="flex items-center gap-2 cursor-pointer px-6 py-3">
+            <span className="text-sm">{theme === "dark" ? "Dark" : "Light"} Mode</span>
+            <input
+                type="checkbox"
+                checked={theme === "dark"}
+                onChange={toggleTheme}
+                className="sr-only"
+                aria-label="Toggle theme"
+            />
+            <span className="relative w-10 h-6 bg-gray-400 rounded-full transition-colors duration-300">
+                <span
+                    className={`absolute left-1 top-1 w-4 h-4 rounded-full bg-white shadow transition-transform duration-300 ${
+                        theme === "dark" ? "translate-x-4" : ""
+                    }`}
+                />
+            </span>
+        </label>
+    );
 
     return (
         <>
@@ -59,7 +59,7 @@ const Sidebar: React.FC = () => {
                     </DrawerClose>
                     <nav>
                         <ul className="list-none p-0">
-                            {/* <li>{ThemeSwitch}</li> */}
+                            <li>{ThemeSwitch}</li>
                             <li>
                                 <DrawerClose asChild>
                                     <Link
@@ -77,9 +77,9 @@ const Sidebar: React.FC = () => {
                             <li>
                                 <DrawerClose asChild>
                                     <Link
-                                        to="/favorite"
+                                        to="/favorites"
                                         className={`flex items-center gap-2 px-6 py-3 no-underline ${
-                                            location.pathname === "/favorite"
+                                            location.pathname === "/favorites"
                                                 ? "text-cyan-400"
                                                 : "text-white"
                                         } hover:bg-gray-800`}
@@ -118,9 +118,9 @@ const Sidebar: React.FC = () => {
                         </li>
                         <li>
                             <Link
-                                to="/favorite"
+                                to="/favorites"
                                 className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-                                    location.pathname === "/favorite"
+                                    location.pathname === "/favorites"
                                         ? "bg-cyan-600 text-white shadow"
                                         : "hover:bg-gray-800 hover:text-cyan-400"
                                 }`}
@@ -131,7 +131,7 @@ const Sidebar: React.FC = () => {
                         </li>
                     </ul>
                 </nav>
-                {/* <div className="px-4 mt-8">{ThemeSwitch}</div> */}
+                <div className="px-4 mt-8">{ThemeSwitch}</div>
             </div>
         </>
     );

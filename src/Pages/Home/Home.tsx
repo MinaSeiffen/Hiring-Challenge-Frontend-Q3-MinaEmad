@@ -63,9 +63,9 @@ function Home() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-6 bg-white rounded-xl shadow-lg">
+    <div className="max-w-6xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg transition-colors duration-300">
       <header className="flex md:flex-row flex-col justify-between items-center mb-8">
-        <h1 className="text-lg md:text-3xl font-extrabold text-gray-700 tracking-tight flex items-center gap-2">
+        <h1 className="text-lg md:text-3xl font-extrabold text-gray-700 dark:text-gray-200 tracking-tight flex items-center gap-2">
           <FaGithub className="text-blue-400" />
           GitHub Users
         </h1>

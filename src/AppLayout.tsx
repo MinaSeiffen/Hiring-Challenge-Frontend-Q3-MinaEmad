@@ -5,7 +5,7 @@ import { Toaster } from "sonner";
 
 function AppLayout() {
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
             <div className="flex-1">
                 <div className="block">
                     <Sidebar/>
