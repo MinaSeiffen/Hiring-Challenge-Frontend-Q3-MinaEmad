@@ -10,6 +10,7 @@ import {
     DrawerClose,
 } from "../ui/drawer";
 import { useTheme } from "../../Context/ThemeContext";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 const Sidebar: React.FC = () => {
     const location = useLocation();
@@ -42,13 +43,14 @@ const Sidebar: React.FC = () => {
             <Drawer>
                 <DrawerTrigger asChild>
                     <button
-                        className="md:hidden fixed top-4 left-4 z-50 text-3xl text-gray-800"
+                        className="md:hidden fixed top-4 left-4 z-50 text-3xl text-gray-800 dark:text-gray-200"
                         aria-label="Open sidebar"
                     >
                         &#9776;
                     </button>
                 </DrawerTrigger>
                 <DrawerContent className="w-56 bg-gray-900 text-white pt-16">
+                    <DialogTitle className="hidden">Menu</DialogTitle>
                     <DrawerClose asChild>
                         <button
                             aria-label="Close sidebar"
