@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { UserCard } from '../Card';
 import type { User } from '../../../Types';
+import { FavoritesContext } from '../../../Context/FavoritesContext';
 
 const mockUser: User = {
   login: 'testuser',
@@ -24,26 +25,39 @@ const mockUser: User = {
   site_admin: false,
 };
 
+// simple mock provider
+function renderWithFavorites(ui: React.ReactNode, favorites: User[] = []) {
+  const toggleFavorite = jest.fn();
+  return render(
+    <FavoritesContext.Provider value={{ favorites, toggleFavorite }}>
+      {ui}
+    </FavoritesContext.Provider>
+  );
+}
+
 describe('UserCard', () => {
   it('renders user information correctly', () => {
-    render(<UserCard user={mockUser} index={0} />);
-    
+    renderWithFavorites(<UserCard user={mockUser} index={0} />);
+
     expect(screen.getByText('testuser')).toBeInTheDocument();
     expect(screen.getByText('User')).toBeInTheDocument();
     expect(screen.getByText('View on GitHub')).toBeInTheDocument();
   });
 
   it('renders user avatar', () => {
-    render(<UserCard user={mockUser} index={0} />);
-    
+    renderWithFavorites(<UserCard user={mockUser} index={0} />);
+
     const avatar = screen.getByAltText('testuser');
     expect(avatar).toBeInTheDocument();
-    expect(avatar).toHaveAttribute('src', 'https://avatars.githubusercontent.com/u/1?v=4');
+    expect(avatar).toHaveAttribute(
+      'src',
+      'https://avatars.githubusercontent.com/u/1?v=4'
+    );
   });
 
   it('has correct GitHub link', () => {
-    render(<UserCard user={mockUser} index={0} />);
-    
+    renderWithFavorites(<UserCard user={mockUser} index={0} />);
+
     const link = screen.getByText('View on GitHub').closest('a');
     expect(link).toHaveAttribute('href', 'https://github.com/testuser');
     expect(link).toHaveAttribute('target', '_blank');
