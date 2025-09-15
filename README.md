@@ -25,7 +25,7 @@ A modern, responsive web application that fetches and displays GitHub users with
 - **Frontend**: React 19, TypeScript, Vite
 - **Styling**: Tailwind CSS 4, Radix UI components
 - **State Management**: React Context API
-- **Routing**: React Router DOM v7
+- **Routing**: React Router DOM v6
 - **Data Fetching**: Axios with custom hooks
 - **Testing**: Jest, React Testing Library
 - **Build Tool**: Vite
