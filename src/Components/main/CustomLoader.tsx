@@ -2,17 +2,45 @@ import { Skeleton } from '../ui/skeleton'
 
 function CustomLoader() {
   return (
-    <div className="flex justify-center items-center h-40">
-        <div className="flex flex-col space-y-3">
-        <Skeleton className="h-[25px] w-[200px] md:w-[600px] rounded-xl" />
-        <div className="space-y-2">
-            <Skeleton className="h-4 w-[200px] md:w-[600px] " />
-            <Skeleton className="h-4 w-[200px] md:w-[600px]" />
-            <Skeleton className="h-4 w-[200px] md:w-[600px]" />
-            <Skeleton className="h-4 w-[200px] md:w-[600px]" />
-            <Skeleton className="h-4 w-[200px] md:w-[600px]" />
-        </div>
-        </div>
+<div className="w-full">
+      <div className="overflow-hidden rounded-md border">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b">
+              <th className="p-4 text-center">
+                <Skeleton className="h-6 w-full" />
+              </th>
+              <th className="p-4 text-center">
+                <Skeleton className="h-6 w-full" />
+              </th>
+              <th className="p-4 text-center">
+                <Skeleton className="h-6 w-full" />
+              </th>
+              <th className="p-4 text-center">
+                <Skeleton className="h-6 w-full" />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {[...Array(5)].map((_, i) => (
+              <tr key={i} className="border-b">
+                <td className="p-4 text-center">
+                  <Skeleton className="h-8 w-full" />
+                </td>
+                <td className="p-4 text-center">
+                  <Skeleton className="h-8 w-full" />
+                </td>
+                <td className="p-4 text-center">
+                  <Skeleton className="h-8 w-full" />
+                </td>
+                <td className="p-4 text-center">
+                  <Skeleton className="h-8 w-full" />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
