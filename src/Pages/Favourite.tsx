@@ -5,6 +5,7 @@ import useGetAll from "../Hooks/users/uesGetAll";
 import { UserCardSkeleton } from "../Components/main/UserCardSkeleton";
 import Search from "../Components/main/Search";
 import useDebouncedValue from "../Hooks/useDebounceValue";
+import { HeartOff } from "lucide-react";
 
 function Favourite() {
   const { favorites } = useContext(FavoritesContext);
@@ -45,8 +46,10 @@ function Favourite() {
   if (favorites.length === 0) {
     hasFetched.current = false;
     return (
-      <div className="text-center text-gray-500 dark:text-gray-400 mt-10">
-        No favourite users found.
+      <div className="flex flex-col items-center justify-center min-h-[80vh] text-center p-8">
+        <HeartOff className="w-24 h-24 text-gray-400 dark:text-gray-500 mb-4" />
+        <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2">No Favourite Users Yet</h2>
+        <p className="text-gray-500 dark:text-gray-400 max-w-md">Start exploring GitHub users and add some to your favourites to see them here!</p>
       </div>
     );
   }

@@ -208,10 +208,6 @@ The project uses Tailwind CSS 4 with custom configuration in `tailwind.config.js
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 🙏 Acknowledgments
 
 - GitHub API for providing user data
