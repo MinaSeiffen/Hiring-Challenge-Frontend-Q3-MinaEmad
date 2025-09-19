@@ -42,9 +42,12 @@ export const useUserManagement = () => {
     onGlobalFilterChange: setSearch,
   });
 
-  const loadMoreData = useCallback(async () => {
-    if (infiniteLoading || !hasMore || isPaginationMode) return;
+  const loadingRef = useRef(false);
 
+  const loadMoreData = useCallback(async () => {
+    if (infiniteLoading || !hasMore || isPaginationMode || search.length !== 0) return;
+
+    loadingRef.current = true;
     setInfiniteLoading(true);
     try {
       const nextSince = allUsers.length > 0 ? allUsers[allUsers.length - 1].id : 0;
@@ -70,25 +73,26 @@ export const useUserManagement = () => {
       setHasMore(false);
     } finally {
       setInfiniteLoading(false);
+      loadingRef.current = false;
     }
-  }, [allUsers, infiniteLoading, hasMore, isPaginationMode, fetchData, users]);
+  }, [infiniteLoading, hasMore, isPaginationMode, users, allUsers, search]);
 
   useEffect(() => {
-    if (!isPaginationMode && observerRef.current) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting && !infiniteLoading && hasMore) {
-            loadMoreData();
-          }
-        },
-        { threshold: 0.1 }
-      );
+    if (!isPaginationMode && observerRef.current && search.length === 0) {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          loadMoreData();
+        }
+      }, { threshold: 0.1 });
 
-      observer.observe(observerRef.current);
+      const node = observerRef.current;
+      observer.observe(node);
 
-      return () => observer.disconnect();
+      return () => {
+        if (node) observer.unobserve(node);
+      };
     }
-  }, [isPaginationMode, loadMoreData, infiniteLoading, hasMore]);
+  }, [isPaginationMode, infiniteLoading, hasMore, search, loadMoreData]);
 
   const handleModeSwitch = () => {
     setIsPaginationMode(!isPaginationMode);
@@ -107,13 +111,13 @@ export const useUserManagement = () => {
   };
 
   useEffect(() => {
-    if (isPaginationMode) {
+    if (isPaginationMode && search.length === 0) {
       fetchData(pagination.pageSize, pagination.since as number, pagination.isLast);
     }
   }, [pagination.pageSize, pagination.since, pagination.isLast, isPaginationMode]);
 
   useEffect(() => {
-    if (!isPaginationMode && allUsers.length === 0) {
+    if (!isPaginationMode && allUsers.length === 0 && search.length === 0) {
       fetchData(10, 0, false).then(() => {
         if (users) {
           setAllUsers(users);
