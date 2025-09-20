@@ -42,27 +42,21 @@ export const useUserManagement = () => {
     onGlobalFilterChange: setSearch,
   });
 
-  const loadingRef = useRef(false);
 
   const loadMoreData = useCallback(async () => {
     if (infiniteLoading || !hasMore || isPaginationMode || search.length !== 0) return;
 
-    loadingRef.current = true;
     setInfiniteLoading(true);
     try {
-      const nextSince = allUsers.length > 0 ? allUsers[allUsers.length - 1].id : 0;
+      const nextSince =
+        allUsers.length > 0 ? allUsers[allUsers.length - 1].id : 0;
 
-      await fetchData(10, nextSince, false);
+      const newUsers = await fetchData(10, nextSince, false);
 
-      if (users && users.length > 0) {
-        setAllUsers(prevUsers => {
-          const newUsers = users.filter(newUser =>
-            !prevUsers.some(existingUser => existingUser.id === newUser.id)
-          );
-          return [...prevUsers, ...newUsers];
-        });
+      if (newUsers && newUsers.length > 0) {
+        setAllUsers(prevUsers => [...prevUsers, ...newUsers]);
 
-        if (users.length < 10) {
+        if (newUsers.length < 10) {
           setHasMore(false);
         }
       } else {
@@ -73,9 +67,8 @@ export const useUserManagement = () => {
       setHasMore(false);
     } finally {
       setInfiniteLoading(false);
-      loadingRef.current = false;
     }
-  }, [infiniteLoading, hasMore, isPaginationMode, users, allUsers, search]);
+  }, [infiniteLoading, hasMore, isPaginationMode, allUsers, search]);
 
   useEffect(() => {
     if (!isPaginationMode && observerRef.current && search.length === 0) {
@@ -92,7 +85,7 @@ export const useUserManagement = () => {
         if (node) observer.unobserve(node);
       };
     }
-  }, [isPaginationMode, infiniteLoading, hasMore, search, loadMoreData]);
+  }, [isPaginationMode, infiniteLoading, hasMore, search]);
 
   const handleModeSwitch = () => {
     setIsPaginationMode(!isPaginationMode);
